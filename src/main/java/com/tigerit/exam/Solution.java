@@ -15,12 +15,31 @@ public class Solution implements Runnable {
         // your application entry point
 
         // sample input process
-        String string = readLine();
+        int T = readLineAsInteger();
 
-        Integer integer = readLineAsInteger();
+        for (int i = 0; i < T; i++) {
+            int nT = readLineAsInteger();
+            for (int j = 0; j < nT; j++) {
+                String table_name = readLine();
+                int num_of_row = readLineAsInteger();
+                int num_col_col = readLineAsInteger();
+                String table_names = readLine();
+//                  Column name input
+                for (int k = 0; k < num_of_row; k++) {
+                    String row = readLine();
+//                    A string containing integers which needs to be parsed.
+                }
+
+            }
+            int number_of_query = readLineAsInteger();
+            for (int noq = 0; noq < number_of_query; noq++){
+                String query = readLine();
+                System.out.println("Test: 1");
+            }
+        }
 
         // sample output process
-        printLine(string);
-        printLine(integer);
+//        printLine(string);
+//        printLine(integer);
     }
 }
