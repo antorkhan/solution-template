@@ -1,6 +1,7 @@
 package com.tigerit.exam;
 
-
+import java.util.*;
+import java.util.HashMap;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -35,6 +36,11 @@ public class Solution implements Runnable {
         // sample input process
         int T = readLineAsInteger();
         for (int i = 0; i < T; i++) {
+            HashMap<String, ArrayList<Integer>> table_col = new HashMap<>();
+
+
+//            System.out.println(db.get("table1").get("id_a").get(0));
+//
             int nT = readLineAsInteger();
             for (int j = 0; j < nT; j++) {
                 String table_name = readLine();
@@ -42,24 +48,32 @@ public class Solution implements Runnable {
                 String row_and_col[] = row_and_col_raw.split(" ");
 
                 int num_of_row = Integer.parseInt(row_and_col[0]);
-                int num_col_col = Integer.parseInt(row_and_col[1]);
-                String table_names = readLine();
-//                  Column name input
+                int num_of_col = Integer.parseInt(row_and_col[1]);
+
+//                Take Col Name Inputs and iterate over them to create structure Ex: id_a a1 a2
+                String col_names_raw = readLine();
+                String col_names[] = col_names_raw.split(" ");
+                for( String col_name: col_names){
+
+                    table_col.put(col_name,new ArrayList<>()); //Empty Column
+                    System.out.println(table_col);
+                }
+//               Row Input Ex: 1 2 3
                 for (int k = 0; k < num_of_row; k++) {
-                    String row = readLine();
-//                    A string containing integers which needs to be parsed.
+                    String row_input_raw = readLine();
+                    String row_input[] = row_input_raw.split(" ");
+                    for( int l =0; l<num_of_col; l++){
+//                        db.get(table_name).get(col_names[l]).add(Integer.parseInt(row_input[l]));
+                    }
                 }
 
             }
+//            System.out.println(db);
             int number_of_query = readLineAsInteger();
             for (int noq = 0; noq < number_of_query; noq++){
                 String query = readLine();
                 System.out.println("Test: 1");
             }
         }
-//
-//         sample output process
-//        printLine(string);
-//        printLine(integer);
     }
 }
