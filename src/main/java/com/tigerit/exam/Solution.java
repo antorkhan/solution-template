@@ -23,25 +23,33 @@ public class Solution implements Runnable {
 
 
 
-    private void join_tables(String table_1, String column_1, String table_2, String column_2, String t1SelectedColumns[], String t2SelectedColumns[]) {
-//        System.out.println(db);
+    private void join_tables(String table_1, String column_1, String table_2, String column_2, String t1SelectedColumns[], String t2SelectedColumns[], int query_no ){
+        if( query_no != 1)
+            System.out.println("");
+
+
+        for (String col : t1SelectedColumns) {
+                        System.out.print(col+" ");
+        }
+        for (String col : t2SelectedColumns) {
+                        System.out.print(col+" ");
+//                        System.out.print(db.get(table_2).get(col).get(j) + " ");
+        }
         for (int i = 0; i < db.get(table_1).get(column_1).size(); i++) {
             for (int j = 0; j < db.get(table_2).get(column_2).size(); j++) {
                 if (db.get(table_1).get(column_1).get(i).equals(db.get(table_2).get(column_2).get(j))) {
                     String output = "\n";
                     for (String col : t1SelectedColumns) {
-                        System.out.print(col+" ");
                         output += db.get(table_1).get(col).get(i) + " ";
                     }
                     for (String col : t2SelectedColumns) {
-                        System.out.print(col+" ");
                         output += db.get(table_2).get(col).get(j) + " ";
-//                        System.out.print(db.get(table_2).get(col).get(j) + " ");
                     }
-                    System.out.println(output);
+                    System.out.print(output);
                 }
             }
         }
+        System.out.println(" ");
     }
 
     @Override
@@ -81,6 +89,9 @@ public class Solution implements Runnable {
         int T = readLineAsInteger();
         for (int i = 0; i < T; i++) {
             db.clear();
+            if( i != 0)
+                System.out.println("");
+            System.out.println("Test: "+ (i+1));
 
 
             HashMap<Integer, String> tableNameMaps = new HashMap<>();
@@ -148,12 +159,12 @@ public class Solution implements Runnable {
                     String[] selected_columns_table_two = {"id_b", "b1", "b2"};
 
 //                    System.out.println(query);
-                    join_tables(firstTableName,
+                    join_tables("table_a",
                             firstKey,
-                            secondTableName,
+                            "table_b",
                             secondKey,
                             selected_columns_table_one,
-                            selected_columns_table_two);
+                            selected_columns_table_two, noq+1);
 //
 
                 }
