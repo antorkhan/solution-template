@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.tigerit.exam.IO.*;
 
@@ -20,8 +22,9 @@ public class Solution implements Runnable {
     private HashMap<String, HashMap<String, ArrayList<Integer>>> db = new HashMap<>();
 
 
+
     private void join_tables(String table_1, String column_1, String table_2, String column_2, String t1SelectedColumns[], String t2SelectedColumns[]) {
-        System.out.println(db);
+//        System.out.println(db);
         for (int i = 0; i < db.get(table_1).get(column_1).size(); i++) {
             for (int j = 0; j < db.get(table_2).get(column_2).size(); j++) {
                 if (db.get(table_1).get(column_1).get(i).equals(db.get(table_2).get(column_2).get(j))) {
@@ -43,6 +46,23 @@ public class Solution implements Runnable {
 
     @Override
     public void run() {
+//        String query_string = "SELECT MY BIG HEAD FROM `shipping_addresses`";
+        Pattern selectPattern = Pattern.compile("^SELECT (.*?) FROM");
+        Pattern firstTablePattern = Pattern.compile("FROM (.*?) JOIN");
+        Pattern secondTablePattern = Pattern.compile("JOIN (.*?) ON");
+        Pattern firstKeyPattern = Pattern.compile(" ON .*\\.(.*?) ");
+        Pattern secondKeyPattern = Pattern.compile(" = .*\\.(.*?)$");
+        String firstTableName = null;
+        String secondTableName =  null;
+        String firstKey =  null;
+        String secondKey =  null;
+
+//        if (matcher.find())
+//        {
+//            System.out.println(matcher.group(1));
+//        }
+//        System.out.println(test);
+
         FileInputStream instream = null;
         PrintStream outstream = null;
 
@@ -60,6 +80,7 @@ public class Solution implements Runnable {
         // sample input process
         int T = readLineAsInteger();
         for (int i = 0; i < T; i++) {
+            db.clear();
 
 
             HashMap<Integer, String> tableNameMaps = new HashMap<>();
@@ -106,18 +127,40 @@ public class Solution implements Runnable {
             }
 //            System.out.println(db.get("table_a").get("id_a"));
             int number_of_query = readLineAsInteger();
+//            System.out.println(number_of_query);
             for (int noq = 0; noq < number_of_query; noq++) {
                 String query = readLine();
-//                System.out.println(query);
+                Matcher selectMatcher = selectPattern.matcher(query);
+                Matcher firstTableMatcher = firstTablePattern.matcher(query);
+                Matcher secondTableMatcher = secondTablePattern.matcher(query);
+                Matcher firstKeyMatcher = firstKeyPattern.matcher(query);
+                Matcher secondKeyMatcher = secondKeyPattern.matcher(query);
+                if(selectMatcher.find() && firstTableMatcher.find() && secondTableMatcher.find() && firstKeyMatcher.find() && secondKeyMatcher.find()){
+                    firstTableName = firstTableMatcher.group(1);
+                    secondTableName = secondTableMatcher.group(1);
+                    firstKey =  firstKeyMatcher.group(1);
+                    secondKey =  secondKeyMatcher.group(1);
+//                    System.out.println("First -> "+firstTableName);
+
+
+//                    System.out.println(selectMatcher.group(1));  // Column Selector
+                    String[] selected_columns_table_one = {"id_a", "a1", "a2"};
+                    String[] selected_columns_table_two = {"id_b", "b1", "b2"};
+
+//                    System.out.println(query);
+                    join_tables(firstTableName,
+                            firstKey,
+                            secondTableName,
+                            secondKey,
+                            selected_columns_table_one,
+                            selected_columns_table_two);
+//
+
+                }
+
+
             }
-            String[] selected_columns_table_one = {"id_a", "a1", "a2"};
-            String[] selected_columns_table_two = {"id_b", "b1", "b2"};
-            join_tables("table_a",
-                    "a1",
-                    "table_b",
-                    "b1",
-                    selected_columns_table_one,
-                    selected_columns_table_two);
+
         }
     }
 }
