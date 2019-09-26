@@ -22,29 +22,37 @@ public class Solution implements Runnable {
     private HashMap<String, HashMap<String, ArrayList<Integer>>> db = new HashMap<>();
 
 
+    private String[] field_selector(String selectInput) {
+        selectInput = selectInput.trim();
+        String fields[] = {"table_a.id_a", "table_b.id_b"};
+        if (selectInput.charAt(0) == '*') {
 
-    private void join_tables(String table_1, String column_1, String table_2, String column_2, String t1SelectedColumns[], String t2SelectedColumns[], int query_no ){
-        if( query_no != 1)
+        } else {
+//            fields = selectInput.split(",");
+        }
+        return fields;
+    }
+
+    private void join_tables(String table_1, String column_1, String table_2, String column_2, String SelectedColumns[], int query_no) {
+        if (query_no != 1)
             System.out.println("");
 
 
-        for (String col : t1SelectedColumns) {
-                        System.out.print(col+" ");
+        for (String col : SelectedColumns) {
+            col = col.split("\\.")[1];
+            System.out.print(col + " ");
         }
-        for (String col : t2SelectedColumns) {
-                        System.out.print(col+" ");
-//                        System.out.print(db.get(table_2).get(col).get(j) + " ");
-        }
+
         for (int i = 0; i < db.get(table_1).get(column_1).size(); i++) {
             for (int j = 0; j < db.get(table_2).get(column_2).size(); j++) {
                 if (db.get(table_1).get(column_1).get(i).equals(db.get(table_2).get(column_2).get(j))) {
                     String output = "\n";
-                    for (String col : t1SelectedColumns) {
-                        output += db.get(table_1).get(col).get(i) + " ";
+                    for (String col : SelectedColumns) {
+
+//                        System.out.println("str -> "+ col.split("\\.")[0]);
+                        output += db.get(col.split("\\.")[0]).get(col.split("\\.")[1]).get(i) + " ";
                     }
-                    for (String col : t2SelectedColumns) {
-                        output += db.get(table_2).get(col).get(j) + " ";
-                    }
+
                     System.out.print(output);
                 }
             }
@@ -61,9 +69,9 @@ public class Solution implements Runnable {
         Pattern firstKeyPattern = Pattern.compile(" ON .*\\.(.*?) ");
         Pattern secondKeyPattern = Pattern.compile(" = .*\\.(.*?)$");
         String firstTableName = null;
-        String secondTableName =  null;
-        String firstKey =  null;
-        String secondKey =  null;
+        String secondTableName = null;
+        String firstKey = null;
+        String secondKey = null;
 
 //        if (matcher.find())
 //        {
@@ -89,9 +97,9 @@ public class Solution implements Runnable {
         int T = readLineAsInteger();
         for (int i = 0; i < T; i++) {
             db.clear();
-            if( i != 0)
+            if (i != 0)
                 System.out.println("");
-            System.out.println("Test: "+ (i+1));
+            System.out.println("Test: " + (i + 1));
 
 
             HashMap<Integer, String> tableNameMaps = new HashMap<>();
@@ -146,25 +154,25 @@ public class Solution implements Runnable {
                 Matcher secondTableMatcher = secondTablePattern.matcher(query);
                 Matcher firstKeyMatcher = firstKeyPattern.matcher(query);
                 Matcher secondKeyMatcher = secondKeyPattern.matcher(query);
-                if(selectMatcher.find() && firstTableMatcher.find() && secondTableMatcher.find() && firstKeyMatcher.find() && secondKeyMatcher.find()){
+                if (selectMatcher.find() && firstTableMatcher.find() && secondTableMatcher.find() && firstKeyMatcher.find() && secondKeyMatcher.find()) {
                     firstTableName = firstTableMatcher.group(1);
                     secondTableName = secondTableMatcher.group(1);
-                    firstKey =  firstKeyMatcher.group(1);
-                    secondKey =  secondKeyMatcher.group(1);
+                    firstKey = firstKeyMatcher.group(1);
+                    secondKey = secondKeyMatcher.group(1);
 //                    System.out.println("First -> "+firstTableName);
 
 
-//                    System.out.println(selectMatcher.group(1));  // Column Selector
+//                    System.out.println("Selected Field -> "+selectMatcher.group(1));  // Column Selector
                     String[] selected_columns_table_one = {"id_a", "a1", "a2"};
                     String[] selected_columns_table_two = {"id_b", "b1", "b2"};
-
+                    String[] selectedColumns = field_selector(selectMatcher.group(1));
 //                    System.out.println(query);
                     join_tables("table_a",
                             firstKey,
                             "table_b",
                             secondKey,
-                            selected_columns_table_one,
-                            selected_columns_table_two, noq+1);
+                            selectedColumns,
+                            noq + 1);
 //
 
                 }

@@ -1,24 +1,24 @@
 Test: 1
-id_a a1 a2 id_b b1 b2 
-1 2 3 1 2 9  
+id_a id_b 
+1 1  
 
-id_a a1 a2 id_b b1 b2 
-2 4 5 2 10 5 
-3 6 7 3 12 7  
+id_a id_b 
+2 2 
+3 3  
 
-id_a a1 a2 id_b b1 b2 
-2 4 5 2 10 5 
-3 6 7 3 12 7  
+id_a id_b 
+2 2 
+3 3  
 
 Test: 2
-id_a a1 a2 id_b b1 b2 
-1 2 3 1 2 9  
+id_a id_b 
+1 1  
 
-id_a a1 a2 id_b b1 b2 
-2 4 5 2 10 5 
-3 6 7 3 12 7  
+id_a id_b 
+2 2 
+3 3  
 
-id_a a1 a2 id_b b1 b2 
-2 4 5 2 10 5 
-3 6 7 3 12 7  
+id_a id_b 
+2 2 
+3 3  
 Ending Process ...
