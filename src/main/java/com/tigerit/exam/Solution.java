@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.HashMap;
 //import java.io.FileInputStream;
 //import java.io.FileOutputStream;
-import java.io.PrintStream;
+//import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +26,6 @@ public class Solution implements Runnable {
 
     private ArrayList<String> columnSelector(String selectInput) {
         selectInput = selectInput.replace(" ","");
-//        System.out.println(selectInput);
         ArrayList<String> selected_fields = new ArrayList<>();
         if (selectInput.charAt(0) == '*') {
             for(String col: allColumns){
@@ -34,7 +33,6 @@ public class Solution implements Runnable {
             }
         }
         else {
-//            System.out.println(selectInput.split(",")[0]);
             String fields[] = selectInput.split(",");
             for( String field: fields){
                 String alias = field.split("\\.")[0];
@@ -84,11 +82,6 @@ public class Solution implements Runnable {
         String firstKey = null;
         String secondKey = null;
 
-//        if (matcher.find())
-//        {
-//            System.out.println(matcher.group(1));
-//        }
-//        System.out.println(test);
 
 //        FileInputStream instream = null;
 //        PrintStream outstream = null;
@@ -102,9 +95,9 @@ public class Solution implements Runnable {
 //            System.err.println("Error Occurred.");
 //        }
 
+
         // your application entry point
 
-        // sample input process
         int T = readLineAsInteger();
         for (int i = 0; i < T; i++) {
             db.clear();
@@ -115,11 +108,6 @@ public class Solution implements Runnable {
 
 
             HashMap<Integer, String> tableNameMaps = new HashMap<>();
-
-
-
-//          System.out.println(db.get("table1").get("id_a").get(0));
-//
             int nT = readLineAsInteger();
             for (int j = 0; j < nT; j++) {
                 String table_name = readLine();
@@ -138,13 +126,10 @@ public class Solution implements Runnable {
                 HashMap<String, ArrayList<Integer>> table_col = new HashMap<>();
                 for (String col_name : col_names) {
                     allColumns.add(table_name+'.'+col_name);
-
-//                    System.out.println(col_name);
                     table_col.put(col_name, new ArrayList<>()); //Empty Column
                     db.put(table_name, table_col);
                     tableNameMaps.put(key, col_name);
                     key++;
-//                    System.out.println(db);
                 }
 
 
@@ -156,11 +141,8 @@ public class Solution implements Runnable {
                         db.get(table_name).get(tableNameMaps.get(l)).add(Integer.parseInt(row_input[l]));
                     }
                 }
-
             }
-//            System.out.println(db.get("table_a").get("id_a"));
             int number_of_query = readLineAsInteger();
-//            System.out.println(number_of_query);
             for (int noq = 0; noq < number_of_query; noq++) {
                 tableNameAlias.clear();
                 String query = readLine();
@@ -196,13 +178,10 @@ public class Solution implements Runnable {
                             secondKey,
                             selectedColumns,
                             noq + 1);
-//
-
                 }
-
-
             }
 
         }
+        System.out.println("");
     }
 }
