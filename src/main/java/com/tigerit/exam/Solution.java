@@ -2,7 +2,7 @@ package com.tigerit.exam;
 
 import java.util.*;
 import java.util.HashMap;
-//import java.io.FileInputStream;
+import java.io.FileInputStream;
 //import java.io.FileOutputStream;
 //import java.io.PrintStream;
 import java.util.regex.Matcher;
@@ -17,7 +17,7 @@ import static com.tigerit.exam.IO.*;
  * application"s execution points start from inside run method.
  */
 public class Solution implements Runnable {
-//    static private final String INPUT = "C:\\sites\\solution-template\\src\\main\\java\\com\\tigerit\\exam\\input.txt";
+    static private final String INPUT = "C:\\sites\\solution-template\\src\\main\\java\\com\\tigerit\\exam\\input.txt";
 //    static private final String OUTPUT = "C:\\sites\\solution-template\\src\\main\\java\\com\\tigerit\\exam\\output.txt";
     private HashMap<String, HashMap<String, ArrayList<Integer>>> db = new HashMap<>();
     HashMap<String,String> tableNameAlias =  new HashMap<>();;
@@ -145,7 +145,13 @@ public class Solution implements Runnable {
             int number_of_query = readLineAsInteger();
             for (int noq = 0; noq < number_of_query; noq++) {
                 tableNameAlias.clear();
-                String query = readLine();
+                String query = "";
+                String select =  readLine();
+                String from =  readLine();
+                String join =  readLine();
+                String on =  readLine();
+                readLine();
+                query = select + " "+from + " "+join + " "+on;
                 Matcher selectMatcher = selectPattern.matcher(query);
                 Matcher firstTableMatcher = firstTablePattern.matcher(query);
                 Matcher secondTableMatcher = secondTablePattern.matcher(query);
