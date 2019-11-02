@@ -21,14 +21,20 @@ public class Solution implements Runnable {
 //    static private final String OUTPUT = "C:\\sites\\solution-template\\src\\main\\java\\com\\tigerit\\exam\\output.txt";
     private HashMap<String, HashMap<String, ArrayList<Integer>>> db = new HashMap<>();
     HashMap<String,String> tableNameAlias =  new HashMap<>();;
-    ArrayList<String> allColumns = new ArrayList<>();
+    HashMap<String, ArrayList<String>> allColumn= new HashMap<>();
 
 
-    private ArrayList<String> columnSelector(String selectInput) {
+
+    private ArrayList<String> columnSelector(String selectInput, String table1, String table2) {
         selectInput = selectInput.replace(" ","");
         ArrayList<String> selected_fields = new ArrayList<>();
+//        System.out.println("*"+table1);
+//        System.out.println("*"+table2);
         if (selectInput.charAt(0) == '*') {
-            for(String col: allColumns){
+            for(String col: allColumn.get(table1)){
+                selected_fields.add(col);
+            }
+            for(String col: allColumn.get(table2)){
                 selected_fields.add(col);
             }
         }
@@ -83,7 +89,7 @@ public class Solution implements Runnable {
         String secondKey = null;
 
 
-//        FileInputStream instream = null;
+        FileInputStream instream = null;
 //        PrintStream outstream = null;
 //
 //        try {
@@ -101,7 +107,7 @@ public class Solution implements Runnable {
         int T = readLineAsInteger();
         for (int i = 0; i < T; i++) {
             db.clear();
-            allColumns.clear();
+
             if (i != 0)
                 System.out.println("");
             System.out.println("Test: " + (i + 1));
@@ -124,6 +130,7 @@ public class Solution implements Runnable {
 
                 int key = 0;
                 HashMap<String, ArrayList<Integer>> table_col = new HashMap<>();
+                ArrayList<String> allColumns = new ArrayList<>();
                 for (String col_name : col_names) {
                     allColumns.add(table_name+'.'+col_name);
                     table_col.put(col_name, new ArrayList<>()); //Empty Column
@@ -131,6 +138,7 @@ public class Solution implements Runnable {
                     tableNameMaps.put(key, col_name);
                     key++;
                 }
+                allColumn.put(table_name, allColumns);
 
 
 //               Row Input Ex: 1 2 3
@@ -157,7 +165,11 @@ public class Solution implements Runnable {
                 Matcher secondTableMatcher = secondTablePattern.matcher(query);
                 Matcher firstKeyMatcher = firstKeyPattern.matcher(query);
                 Matcher secondKeyMatcher = secondKeyPattern.matcher(query);
-                if (selectMatcher.find() && firstTableMatcher.find() && secondTableMatcher.find() && firstKeyMatcher.find() && secondKeyMatcher.find()) {
+                if (selectMatcher.find() &&
+                        firstTableMatcher.find() &&
+                        secondTableMatcher.find() &&
+                        firstKeyMatcher.find() &&
+                        secondKeyMatcher.find()) {
                     firstTableName = firstTableMatcher.group(1);
                     secondTableName = secondTableMatcher.group(1);
 
@@ -177,7 +189,7 @@ public class Solution implements Runnable {
 
                     firstKey = firstKeyMatcher.group(1);
                     secondKey = secondKeyMatcher.group(1);
-                    ArrayList<String> selectedColumns = columnSelector(selectMatcher.group(1));
+                    ArrayList<String> selectedColumns = columnSelector(selectMatcher.group(1),first_table_name_and_alias[0],second_table_name_and_alias[0]);
                     join_tables(first_table_name_and_alias[0],
                             firstKey,
                             second_table_name_and_alias[0],

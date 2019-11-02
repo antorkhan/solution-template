@@ -43,15 +43,15 @@ id_b b1 b2
 3 12 7
 table_c
 3 3
-id_b b1 b2
-1 2 9
+id_c c1 c2
+3 2 9
 1 10 5
 3 12 7
 3
 SELECT *
 FROM table_b
 JOIN table_c
-ON table_b.id_b = table_c.id_b
+ON table_b.id_b = table_c.id_c
 
 SELECT *
 FROM table_a ta
