@@ -65,7 +65,10 @@ public class Solution implements Runnable {
                 if (db.get(table_1).get(column_1).get(i).equals(db.get(table_2).get(column_2).get(j))) {
                     String output = "";
                     for (String col : SelectedColumns) {
-                        output += db.get(col.split("\\.")[0]).get(col.split("\\.")[1]).get(i) + " ";
+//                      col = tableName.fieldName
+//                        System.out.println("***"+db.get(col.split("\\.")[0]).get(col.split("\\.")[1]).get(i) + " ");
+                        int selector = col.split("\\.")[0].equals(table_1) ? i : j;
+                        output += db.get(col.split("\\.")[0]).get(col.split("\\.")[1]).get(selector) + " ";
                     }
 
                     System.out.print('\n'+output.trim());
@@ -92,14 +95,14 @@ public class Solution implements Runnable {
         FileInputStream instream = null;
 //        PrintStream outstream = null;
 //
-//        try {
-//            instream = new FileInputStream(INPUT);
+        try {
+            instream = new FileInputStream(INPUT);
 //            outstream = new PrintStream(new FileOutputStream(OUTPUT));
-//            System.setIn(instream);
+            System.setIn(instream);
 //            System.setOut(outstream);
-//        } catch (Exception e) {
-//            System.err.println("Error Occurred.");
-//        }
+        } catch (Exception e) {
+            System.err.println("Error Occurred.");
+        }
 
 
         // your application entry point
